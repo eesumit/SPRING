@@ -12,8 +12,15 @@ public class JDBC{
         //Step-04: Creating the Statement.
         Statement stmnt = con.createStatement();
         //Step-05: Executing the Query.
-        String query = "SELECT * FROM family";
-        ResultSet rs = stmnt.executeQuery(query);
+        String query1 = "SELECT * FROM family";
+        String query2 = "insert into family values(?,?,?)";
+        PreparedStatement st = con.prepareStatement(query2);
+        st.setString(1,"z");
+        st.setInt(2,1);
+        st.setString(3,"x&y");
+        int count = st.executeUpdate();
+        System.out.println(count+" rows affected.");
+        ResultSet rs = stmnt.executeQuery(query1);
         int column = rs.getMetaData().getColumnCount();
         for(int i=1;i<=column;i++){
             System.out.print(rs.getMetaData().getColumnName(i)+"  ");
@@ -21,7 +28,7 @@ public class JDBC{
         System.out.println();
         while(rs.next()){
             for(int i=1;i<=column;i++){
-                System.out.print(rs.getString(i));
+                System.out.print(rs.getString(i)+"\t");
             }
             System.out.println();
         }
